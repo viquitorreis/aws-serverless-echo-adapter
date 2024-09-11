@@ -66,7 +66,7 @@ func (e *EchoLambda) proxyInternal(req *http.Request, err error) (events.APIGate
 }
 
 func Handler(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World! First Echo lambda function")
+	return c.String(http.StatusOK, "Hello, World! First Echo lambda function =D")
 }
 
 func ServerlessHandler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -83,15 +83,15 @@ func ServerlessHandler(ctx context.Context, req events.APIGatewayProxyRequest) (
 }
 
 func main() {
-	if os.Getenv("AWS_LAMBDA_RUNTIME_API") == "" || os.Getenv("_LAMBDA_SERVER_PORT") == "" {
-		// Roda como uma função lambda
+	if os.Getenv("AWS_LAMBDA_RUNTIME_API") != "" {
+		// Roda no ambiente AWS Lambda
+		log.Printf("[AWS LAMBDA] Echo Lambda Start")
+		lambda.Start(ServerlessHandler)
+	} else {
+		// Roda local como uma função lambda
 		log.Printf("[LOCAL] Echo Lambda Start")
 		e := echo.New()
 		e.GET("/", Handler)
 		e.Start(":6969")
-	} else {
-		lambda.Start(ServerlessHandler)
 	}
-
-	lambda.Start(ServerlessHandler)
 }

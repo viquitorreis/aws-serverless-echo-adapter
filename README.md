@@ -23,3 +23,5 @@ mkdir -p ~/.aws-lambda-rie && curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://
 ![Deploy part 1](https://github.com/viquitorreis/aws-serverless-echo-adapter/blob/main/aws-1.png?raw=true)
 
 ![Deploy part 2](https://github.com/viquitorreis/aws-serverless-echo-adapter/blob/main/aws-2.png?raw=true)
+
+    Upload the binary (.zip - compressed) on "Upload"
