@@ -1,0 +1,25 @@
+service: serverless-go # noem da aplicação
+frameworkVersion: '>= 4.3.2' # versao do serverless
+useDotenv: true # vai fazerr o load de um arquivo ".env" na raiz do projeto
+
+provider: # configurações do provider da cloud
+  name: aws # nome do provider
+  runtime: provided.al2
+  architecture: arm64
+  region: us-west-1
+  stage: ${opt:stage} # vai permitir diferentes ambientes de deploy
+
+functions:
+  api:
+    memorySize: 3008 # 3008 MB de memória alocados para a função
+    timeout: 10 # 10 segundos de timeout
+    handler: bin/bootstrap # caminho do binário que será executado
+    events: # eventos que vão disparar a função, fazer a função executar
+      - http: # endpoints da api HTTP
+          path: /
+          method: GET
+
+package: # fala para o Serverless quais arquivos devem ser incluídos no pacote para o deploy
+  patterns: 
+    - bin/**
+    - '!**/*' # exclui todos os arquivos que não estão no bin
